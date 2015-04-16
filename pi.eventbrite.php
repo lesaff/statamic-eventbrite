@@ -17,8 +17,28 @@ include 'vendor/Eventbrite.php';
 
 class Plugin_eventbrite extends Plugin {
 
-  public function index()
+  public function get()
   {
+    /* Get Eventbrite login credentials from add-on settings */
+    $app_name = 'eventbrite';
+    $app_key  = $this->fetchConfig('app_key');
+    $user_key = $this->fetchConfig('user_key');
+
+    /* Basic Eventbrite authentication */
+    $eb_client = new Eventbrite( 
+      array(
+        'app_key'  => $app_key, 
+        'user_key' => $user_key
+      )
+    );
+
+    /* Get attributes from addon */
+    $id           = $this->fetchParam('id', NULL, NULL, FALSE, FALSE);
+    $cache_length = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
+
+    // request an event by adding a valid EVENT_ID value here:
+    $results = $eb_client->event_get( array('id' => $id) );
+    var_dump($results);
   }
 
 	public function search()
@@ -42,7 +62,7 @@ class Plugin_eventbrite extends Plugin {
     $city         = $this->fetchParam('city', NULL, NULL, FALSE, FALSE);
     $region       = $this->fetchParam('region', NULL, NULL, FALSE, FALSE);
     $country      = $this->fetchParam('country', NULL, NULL, FALSE, FALSE);
-    $cache_length = $this->fetchParam('cache', 1000, NULL, FALSE, FALSE);
+    $cache_length = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
 
     $search_params = [
       'max'        => $max,

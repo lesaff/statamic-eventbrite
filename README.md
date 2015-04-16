@@ -2,6 +2,9 @@
 By Rudy Affandi (2015)
 Version 1.0.0
 
+## What is this?
+Eventbrite API wrapper is an add-on that allows you to display Eventbrite dataset on your Statamic site. It requires Eventbrite API and user key.
+
 ## Installation
 Copy the 'add-ons/eventbrite' folder to the '_add-ons' folder in your Statamic website.
 Copy the 'config/eventbrite' folder to the '_config/add-ons' folder in your Statamic website.
@@ -9,20 +12,30 @@ Copy the 'config/eventbrite' folder to the '_config/add-ons' folder in your Stat
 ## How to use
 Use the following tag pair in your template:
 
-### Search events based on parameters
+## Get event based on event ID
 ```
-   {{ eventbrite:search max="" city="" region=" country="" cache="" }}
+  {{ eventbrite:get id="" cache="" }}
 
-   {{ /eventbrite:search }}
+  {{ /eventbrite:get }}
 ```
-## Available parameters for `eventbrite:search`
+### Available parameters for `eventbrite:get`
+- `id` Event ID
+- `cache` Defaults to 18000 ms
+
+## Search events based on parameters
+```
+  {{ eventbrite:search max="" city="" region=" country="" cache="" }}
+
+  {{ /eventbrite:search }}
+```
+### Available parameters for `eventbrite:search`
 - `max` Maximum number of events to display
 - `city` 
 - `region`
 - `country`
-- `cache` Defaults to 1000 ms
+- `cache` Defaults to 18000 ms
 
-## Available tag values
+### Available tag values
 ```
 Event loop
 {{ box_header_text_color }}
