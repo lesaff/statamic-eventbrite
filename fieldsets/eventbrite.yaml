@@ -1,0 +1,111 @@
+title: Eventbrite
+hide: true
+
+fields:
+  title:
+    display: Eventbrite
+
+  eb_section:
+    type: section
+    display: Eventbrite 
+    instructions: Eventbrite custom search criteria.
+
+  eb_keywords:
+    type: tags
+    display: Search by keywords.
+
+  eb_category:
+    type: tags
+    display: Search by event categories.
+    instructions: 'example: conferences, conventions, entertainment, fundraisers, meetings, other, performances, reunions, sales, seminars, social, sports, tradeshows, travel, religion, fairs, food, music, recreation.'
+
+  eb_organizer:
+    type: text
+    display: Search by Organizer.
+    instructions: The organizer name.
+
+  eb_address:
+    type: text
+    display: Search by venue address.
+    instructions: The venue address.
+
+  eb_city:
+    type: text
+    display: Search by venue city.
+    instructions: The venue city.
+
+  eb_region:
+    type: text
+    display: Search by venue region.
+    instructions: 'The venue state/province/county/territory depending on the country. 2-letter state code is required for US addresses.'
+
+  eb_postal_code:
+    type: text
+    display: Search by postal code
+    instructions: The postal/zip code of the venue.
+
+  eb_country:
+    type: text
+    display: Search by country code
+    instructions: 2-letter country code, according to the ISO 3166 format.
+
+  eb_within:
+    type: text
+    display: Search by within
+    instructions: 'If “within” is set and the “city” or “zipcode” resolve to a specific geolocation, the search will be restricted to the specified within radius. The sorting default will be set to “distance”.'
+
+  eb_within_unit:
+    type: text
+    display: Search by within unit
+    instructions: 'If within is set, you can specify the unit to use: “M” for miles, or “K” for kilometers. Miles is set by default'
+
+  eb_latitude:
+    type: text
+    display: Search by latitude
+    instructions: 'If “within” is set you can limit your search to wgs84 coordinates (latitude, Longitude).'
+
+  eb_longitude:
+    type: text
+    display: Search by longitude
+    instructions: 'If “within” is set you can limit your search to wgs84 coordinates (latitude, Longitude).'
+
+  eb_date:
+    type: text
+    display: Search by date
+    instructions: 'The event start date. Limit the list of results to a date range, specified by a label or by exact dates. Currently supported labels include: “All”, “Future”, “Past”, “Today”, “Yesterday”, “Last Week”, “This Week”, “Next week”, “This Month”, “Next Month” and months by name, e.g. “October”. Exact date ranges take the form “YYYY-MM-DD YYYY-MM-DD”, e.g. “2008-04-25 2008-04-27″.'
+
+  eb_date_created:
+    type: text
+    display: Search by date created
+    instructions: 'The date range the event was created, specified by a label or by exact dates. Currently supported labels include: “Today”, “Yesterday”, “Last Week”, “This Week”, “This Month”. Exact date ranges take the form “YYYY-MM-DD YYYY-MM-DD”, e.g. “2008-04-25 2008-04-27″.'
+
+  eb_date_modified:
+    type: text
+    display: Search by date modified
+    instructions: 'The date the event was last modified, specified by a label or by exact dates. Currently supported labels include: “Today”, “Yesterday”, “Last Week”, “This Week”, “This Month”. Exact date ranges take the form “YYYY-MM-DD YYYY-MM-DD”, e.g. “2008-04-25 2008-04-27″.'
+
+  eb_max:
+    type: text
+    display: Maximum number of results
+    instructions: Limit the number of events returned. Maximum limit is 100 events per page. Default is 10.
+
+  eb_count_only:
+    type: checkbox
+    display: Only return total number of events
+    instructions: (“true” or “false”). Default is “false”.
+
+  eb_sort_by:
+    type: select
+    display: Sort by
+    instructions: 'Sort the list of events by “id”, “date”, “name”, “city”. The default is “date”.'
+    options:
+     - date
+     - id
+     - name
+     - city
+
+  eb_cache:
+    type: text
+    display: Cache
+    instructions: Default is 18000 (30 minutes)
+    default: 18000

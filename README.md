@@ -6,8 +6,11 @@ Version 1.0.0
 Eventbrite API wrapper is an add-on that allows you to display Eventbrite dataset on your Statamic site. It requires Eventbrite API and user key.
 
 ## Installation
-Copy the 'add-ons/eventbrite' folder to the '_add-ons' folder in your Statamic website.
-Copy the 'config/eventbrite' folder to the '_config/add-ons' folder in your Statamic website.
+Copy the 'add-ons/eventbrite' folder to the `_add-ons` folder in your Statamic website.
+Copy the 'config/eventbrite' folder to the `_config/add-ons` folder in your Statamic website.
+
+If you want to use enter the search parameters from fieldset, use the following as a guideline or, just include it to your existing fieldsets.
+Copy the fieldset/eventbrite.yaml to the `_config/fieldsets` folder in your Statamic website. You either need to include this fieldset using the `include: ` or copy and paste what you need to your existing fieldset(s)
 
 ## How to use
 Use the following tag pair in your template:
@@ -29,10 +32,29 @@ Use the following tag pair in your template:
   {{ /eventbrite:search }}
 ```
 ### Available parameters for `eventbrite:search`
-- `max` Maximum number of events to display
-- `city` 
+- `keywords`
+- `category`
+- `address`
+- `city`
 - `region`
+- `category`
+- `address`
+- `postal_code`
 - `country`
+- `within`
+- `city`
+- `within_unit`
+- `latitude`
+- `date`
+- `date_created`
+- `date_modified`
+- `organizer`
+- `max`
+- `count_only`
+- `sort_by`
+- `page`
+- `since_id`
+- `tracking_link`
 - `cache` Defaults to 18000 ms
 
 ### Available tag values
@@ -46,7 +68,7 @@ Event loop
 {{ box_border_color }}
 {{ logo }}
 
-{{ organizer }}
+{{ organizer }} (use this as tag loop or singleton like below)
   {{ organizer:url }}
   {{ organizer:description }}
   {{ organizer:long_description }}
@@ -68,7 +90,7 @@ Event loop
 {{ text_color }}
 {{ title_text_color }}
 
-{{ tickets }}
+{{ tickets }} (use this as tag loop or singleton like below)
   {{ ticket }}
     {{ tickets:ticket:description }}
     {{ tickets:ticket:end_date }}
@@ -89,19 +111,19 @@ Event loop
 {{ box_text_color }}
 {{ privacy }}
 
-{{ venue }}
-  {{ city }}
-  {{ name }}
-  {{ country }}
-  {{ region }}
-  {{ longitude }}
-  {{ postal_code }}
-  {{ address_2 }}
-  {{ address }}
-  {{ latitude }}
-  {{ country_code }}
-  {{ id }}
-  {{ Lat-Long }}
+{{ venue }} (use this as tag loop or singleton like below)
+  {{ venue:city }}
+  {{ venue:name }}
+  {{ venue:country }}
+  {{ venue:region }}
+  {{ venue:longitude }}
+  {{ venue:postal_code }}
+  {{ venue:address_2 }}
+  {{ venue:address }}
+  {{ venue:latitude }}
+  {{ venue:country_code }}
+  {{ venue:id }}
+  {{ venue:Lat-Long }}
 
 {{ modified }}
 {{ logo_ssl }}
