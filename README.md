@@ -15,16 +15,6 @@ Copy the fieldset/eventbrite.yaml to the `_config/fieldsets` folder in your Stat
 ## How to use
 Use the following tag pair in your template:
 
-## Get event based on event ID
-```
-  {{ eventbrite:get id="" cache="" }}
-
-  {{ /eventbrite:get }}
-```
-### Available parameters for `eventbrite:get`
-- `id` Event ID
-- `cache` Defaults to 18000 ms
-
 ## Search events based on parameters
 ```
   {{ eventbrite:search max="" city="" region=" country="" cache="" }}
