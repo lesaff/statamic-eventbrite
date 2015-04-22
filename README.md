@@ -1,16 +1,13 @@
 # Eventbrite Add-on for Statamic
 By Rudy Affandi (2015)
-Version 1.0.0
+Version 1.0.1
 
 ## What is this?
 Eventbrite API wrapper is an add-on that allows you to display Eventbrite dataset on your Statamic site. It requires Eventbrite API and user key.
 
 ## Installation
-Copy the 'add-ons/eventbrite' folder to the `_add-ons` folder in your Statamic website.
-Copy the 'config/eventbrite' folder to the `_config/add-ons` folder in your Statamic website.
-
-If you want to use enter the search parameters from fieldset, use the following as a guideline or, just include it to your existing fieldsets.
-Copy the fieldset/eventbrite.yaml to the `_config/fieldsets` folder in your Statamic website. You either need to include this fieldset using the `include: ` or copy and paste what you need to your existing fieldset(s)
+Copy the 'add-ons/eventbrite' folder to the '_add-ons' folder in your Statamic website.
+Copy the 'config/eventbrite' folder to the '_config/add-ons' folder in your Statamic website.
 
 ## How to use
 Use the following tag pair in your template:
@@ -58,7 +55,7 @@ Event loop
 {{ box_border_color }}
 {{ logo }}
 
-{{ organizer }} (use this as tag loop or singleton like below)
+{{ organizer }}
   {{ organizer:url }}
   {{ organizer:description }}
   {{ organizer:long_description }}
@@ -80,7 +77,7 @@ Event loop
 {{ text_color }}
 {{ title_text_color }}
 
-{{ tickets }} (use this as tag loop or singleton like below)
+{{ tickets }}
   {{ ticket }}
     {{ tickets:ticket:description }}
     {{ tickets:ticket:end_date }}
@@ -101,19 +98,19 @@ Event loop
 {{ box_text_color }}
 {{ privacy }}
 
-{{ venue }} (use this as tag loop or singleton like below)
-  {{ venue:city }}
-  {{ venue:name }}
-  {{ venue:country }}
-  {{ venue:region }}
-  {{ venue:longitude }}
-  {{ venue:postal_code }}
-  {{ venue:address_2 }}
-  {{ venue:address }}
-  {{ venue:latitude }}
-  {{ venue:country_code }}
-  {{ venue:id }}
-  {{ venue:Lat-Long }}
+{{ venue }}
+  {{ city }}
+  {{ name }}
+  {{ country }}
+  {{ region }}
+  {{ longitude }}
+  {{ postal_code }}
+  {{ address_2 }}
+  {{ address }}
+  {{ latitude }}
+  {{ country_code }}
+  {{ id }}
+  {{ Lat-Long }}
 
 {{ modified }}
 {{ logo_ssl }}
@@ -122,3 +119,8 @@ Event loop
 
 ## Modifiers
 You can modify the output using the Statamic standard [variable modifiers](http://statamic.com/learn/documentation/variable-modifiers).
+
+## Changelog
+* 1.0.1       Added caching mechanism
+* 1.0.0       Initial release
+ 
