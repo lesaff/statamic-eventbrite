@@ -9,6 +9,7 @@
  * @license    http://opensource.org/licenses/MIT
  *
  * Versions
+ * 1.0.1       Added caching mechanism
  * 1.0.0       Initial release
  */
 
@@ -16,6 +17,30 @@
 include 'vendor/Eventbrite.php';
 
 class Plugin_eventbrite extends Plugin {
+
+  public function get()
+  {
+    /* Get Eventbrite login credentials from add-on settings */
+    $app_name = 'eventbrite';
+    $app_key  = $this->fetchConfig('app_key');
+    $user_key = $this->fetchConfig('user_key');
+
+    /* Basic Eventbrite authentication */
+    $eb_client = new Eventbrite( 
+      array(
+        'app_key'  => $app_key, 
+        'user_key' => $user_key
+      )
+    );
+
+    /* Get attributes from addon */
+    $id           = $this->fetchParam('id', NULL, NULL, FALSE, FALSE);
+    $cache_length = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
+
+    // request an event by adding a valid EVENT_ID value here:
+    $results = $eb_client->event_get( array('id' => $id) );
+    //var_dump($results);
+  }
 
 	public function search()
   {
@@ -102,8 +127,26 @@ class Plugin_eventbrite extends Plugin {
       }
     }
 
-    $this->storage->putYAML($app_name, $output);
-    return $output;
+    /* Cache results */
+    $this->cache->putYAML($app_name, $output);
+
+    /* Check the cache first */
+    $cached_events = $this->cache->getYAML($app_name, $output);
+
+    if ($cached_events) {
+        // If there's a cache and it's older than our specified time, delete it. It'll be recreated later.
+        if ($this->cache->getAge($app_name) >= $cache_length) {
+            $this->cache->delete($app_name);
+        }
+        // There's a cache and its still new enough? Use that.
+        else {
+            return $cached_events;
+        }
+    }
+    return Parse::tagLoop($this->content, $cached_events, true, $this->context);
+
+
+    //return $output;
   }
 }
 
