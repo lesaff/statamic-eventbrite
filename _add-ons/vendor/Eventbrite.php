@@ -3,7 +3,7 @@ class Eventbrite {
     /**
      * Eventbrite API endpoint
      */
-    var $api_endpoint = "https://www.eventbrite.com/json/";
+    var $api_endpoint = "https://www.eventbriteapi.com/v3/events/";
     var $auth_tokens;
     var $api_url;
 

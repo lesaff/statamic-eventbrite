@@ -1,8 +1,5 @@
-# Eventbrite API key
-#
-# Eventbrite API keys are available here: http://www.eventbrite.com/api/key/
-# Eventbrite User_keys are optional. They are only required if you need to access private data. 
-# Eventbrite users can find their user_key here: http://www.eventbrite.com/userkeyapi
+# Eventbrite Personal OAuth Token
+# http://developer.eventbrite.com/docs/auth/
 
-app_key: ''
-user_key: ''
+oauth_token: ''
+anon_access_token: ''
