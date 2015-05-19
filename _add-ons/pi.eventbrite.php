@@ -5,114 +5,97 @@
  *
  * @author     Rudy Affandi <rudy@adnetinc.com>
  * @copyright  2015
- * @link       https://github.com/lesaff
+ * @link       https://github.com/lesaff/statamic-eventbrite
  * @license    http://opensource.org/licenses/MIT
  *
  * Versions
+ * 2.0.0       Changed to OAuth2.0, updated API to V3, added PSR-1 style indentation
  * 1.0.1       Added caching mechanism
  * 1.0.0       Initial release
  */
 
-/* Load API client library, V1 */
-include 'vendor/Eventbrite.php';
+/* Autoload dependencies */
+require 'vendor/Eventbrite.php';
 
-class Plugin_eventbrite extends Plugin {
+/* Autoload dependencies */
+class Plugin_eventbrite extends Plugin
+{
 
-  public function get()
+  public function search()
   {
     /* Get Eventbrite login credentials from add-on settings */
-    $app_name = 'eventbrite';
-    $app_key  = $this->fetchConfig('app_key');
-    $user_key = $this->fetchConfig('user_key');
+    $app_name           = 'eventbrite';
+    $api_auth_endpoint  = 'https://www.eventbrite.com/oauth/authorize';
+    $api_token_endpoint = 'https://www.eventbrite.com/oauth/token';
+    $api_endpoint       = 'https://www.eventbriteapi.com/';
+    $api_version        = 'v3';
+    $api_method         = '/events/search';
+    $app_key            = $this->fetchConfig('app_key');
+    $client_secret      = $this->fetchConfig('client_secret');
+    $oauth_token        = $this->fetchConfig('oauth_token', NULL, NULL, FALSE, FALSE);
 
-    /* Basic Eventbrite authentication */
-    $eb_client = new Eventbrite( 
-      array(
-        'app_key'  => $app_key, 
-        'user_key' => $user_key
-      )
-    );
-
-    /* Get attributes from addon */
-    $id           = $this->fetchParam('id', NULL, NULL, FALSE, FALSE);
-    $cache_length = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
-
-    // request an event by adding a valid EVENT_ID value here:
-    $results = $eb_client->event_get( array('id' => $id) );
-    //var_dump($results);
-  }
-
-	public function search()
-  {
-
-    /* Get Eventbrite login credentials from add-on settings */
-    $app_name = 'eventbrite';
-    $app_key  = $this->fetchConfig('app_key');
-    $user_key = $this->fetchConfig('user_key');
-
-    /* Basic Eventbrite authentication */
-    $eb_client = new Eventbrite( 
-      array(
-        'app_key'  => $app_key, 
-        'user_key' => $user_key
-      )
-    );
+    /* Eventbrite OAuth2.0 authentication */
+    //$eb_client          = $this->tasks->authenticate($oauth_token);
+    $eb_client = new Eventbrite(array('access_token' => $oauth_token));
 
     /* Get attributes from addon */
-    $keywords          = $this->fetchParam('keywords', NULL, NULL, FALSE, FALSE);
-    $category          = $this->fetchParam('category', NULL, NULL, FALSE, FALSE);
-    $address           = $this->fetchParam('address', NULL, NULL, FALSE, FALSE);
-    $city              = $this->fetchParam('city', NULL, NULL, FALSE, FALSE);
-    $region            = $this->fetchParam('region', NULL, NULL, FALSE, FALSE);
-    $category          = $this->fetchParam('category', NULL, NULL, FALSE, FALSE);
-    $address           = $this->fetchParam('address', NULL, NULL, FALSE, FALSE);
-    $postal_code       = $this->fetchParam('postal_code', NULL, NULL, FALSE, FALSE);
-    $country           = $this->fetchParam('country', NULL, NULL, FALSE, FALSE);
-    $within            = $this->fetchParam('within', NULL, NULL, FALSE, FALSE);
-    $within_unit       = $this->fetchParam('within_unit', NULL, NULL, FALSE, FALSE);
-    $latitude          = $this->fetchParam('latitude', NULL, NULL, FALSE, FALSE);
-    $longitude         = $this->fetchParam('longitude', NULL, NULL, FALSE, FALSE);
-    $date              = $this->fetchParam('date', NULL, NULL, FALSE, FALSE);
-    $date_created      = $this->fetchParam('date_created', NULL, NULL, FALSE, FALSE);
-    $date_modified     = $this->fetchParam('date_modified', NULL, NULL, FALSE, FALSE);
-    $organizer         = $this->fetchParam('organizer', NULL, NULL, FALSE, FALSE);
-    $max               = $this->fetchParam('max', NULL, NULL, FALSE, FALSE);
-    $count_only        = $this->fetchParam('count_only', NULL, NULL, FALSE, FALSE);
-    $sort_by           = $this->fetchParam('sort_by', NULL, NULL, FALSE, FALSE);
-    $page              = $this->fetchParam('page', NULL, NULL, FALSE, FALSE);
-    $since_id          = $this->fetchParam('since_id', NULL, NULL, FALSE, FALSE);
-    $tracking_link     = $this->fetchParam('tracking_link', NULL, NULL, FALSE, FALSE);
-    $cache_length      = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
+    $q                            = $this->fetchParam('query', NULL, NULL, FALSE, FALSE);
+    $since_id                     = $this->fetchParam('since_id', NULL, NULL, FALSE, FALSE);
+    $sort_by                      = $this->fetchParam('sort_by', NULL, NULL, FALSE, FALSE);
+    $popular                      = $this->fetchParam('popular', 'false', NULL, FALSE, FALSE);
+    $location_address             = $this->fetchParam('address', NULL, NULL, FALSE, FALSE);
+    $location_latitude            = $this->fetchParam('latitude', NULL, NULL, FALSE, FALSE);
+    $location_longitude           = $this->fetchParam('longitude', NULL, NULL, FALSE, FALSE);
+    $location_within              = $this->fetchParam('within', NULL, NULL, FALSE, FALSE);
+    $venue_city                   = $this->fetchParam('city', NULL, NULL, FALSE, FALSE);
+    $venue_region                 = $this->fetchParam('region', NULL, NULL, FALSE, FALSE);
+    $venue_country                = $this->fetchParam('country', NULL, NULL, FALSE, FALSE);
+    $organizer_id                 = $this->fetchParam('organizer_id', NULL, NULL, FALSE, FALSE);
+    $user_id                      = $this->fetchParam('user_id', NULL, NULL, FALSE, FALSE);
+    $tracking_code                = $this->fetchParam('tracking_code', NULL, NULL, FALSE, FALSE);
+    $categories                   = $this->fetchParam('categories', NULL, NULL, FALSE, FALSE);
+    $formats                      = $this->fetchParam('formats', NULL, NULL, FALSE, FALSE);
+    $start_date_range_start       = $this->fetchParam('start_date_range_after', NULL, NULL, FALSE, FALSE);
+    $start_date_range_end         = $this->fetchParam('start_date_range_before', NULL, NULL, FALSE, FALSE);
+    $start_date_keyword           = $this->fetchParam('start_date_keyword', NULL, NULL, FALSE, FALSE);
+    $date_created_range_start     = $this->fetchParam('date_created_range_after', NULL, NULL, FALSE, FALSE);
+    $date_created_range_end       = $this->fetchParam('date_created_range_before', NULL, NULL, FALSE, FALSE);
+    $date_created_keyword         = $this->fetchParam('date_created_keyword', NULL, NULL, FALSE, FALSE);
+    $date_modified_range_start    = $this->fetchParam('date_modified_range_after', NULL, NULL, FALSE, FALSE);
+    $date_modified_range_end      = $this->fetchParam('date_modified_range_before', NULL, NULL, FALSE, FALSE);
+    $date_modified_keyword        = $this->fetchParam('date_modified_keyword', NULL, NULL, FALSE, FALSE);
+    $cache_length                 = $this->fetchParam('cache', 18000, NULL, FALSE, FALSE);
 
     /* API search parameters */
-    $search_params     = [
-      'keywords'       => $keywords,
-      'category'       => $category,
-      'address'        => $address,
-      'city'           => $city,
-      'region'         => $region,
-      'category'       => $category,
-      'address'        => $address,
-      'postal_code'    => $postal_code,
-      'country'        => $country,
-      'within'         => $within,
-      'city'           => $city,
-      'within_unit'    => $within_unit,
-      'latitude'       => $latitude,
-      'longitude'      => $longitude,
-      'date'           => $date,
-      'date_created'   => $date_created,
-      'date_modified'  => $date_modified,
-      'organizer'      => $organizer,
-      'max'            => $max,
-      'count_only'     => $count_only,
-      'sort_by'        => $sort_by,
-      'page'           => $page,
-      'since_id'       => $since_id,
-      'tracking_link'  => $tracking_link
+    $search_params = [
+      'q'                         => $q,
+      'since_id'                  => $since_id,
+      'sort_by'                   => $sort_by,
+      'popular'                   => $popular,
+      'location.address'          => $location_address,
+      'location.latitude'         => $location_latitude,
+      'location.longitude'        => $location_longitude,
+      'location.within'           => $location_within,
+      'venue.city'                => $venue_city,
+      'venue.region'              => $venue_region,
+      'venue.country'             => $venue_country,
+      'organizer.id'              => $organizer_id,
+      'user.id'                   => $user_id,
+      'tracking_code'             => $tracking_code,
+      'categories'                => $categories,
+      'formats'                   => $formats,
+      'start_date.range_start'    => $start_date_range_start,
+      'start_date.range_end'      => $start_date_range_end,
+      'start_date.keyword'        => $start_date_keyword,
+      'date_created.range_start'  => $date_created_range_start,
+      'date_created.range_end'    => $date_created_range_end,
+      'date_created.keyword'      => $date_created_keyword,
+      'date_modified.range_start' => $date_modified_range_start,
+      'date_modified.range_end'   => $date_modified_range_end,
+      'date_modified.keyword'     => $date_modified_keyword,
     ];
 
-    $results = $eb_client->event_search( $search_params );
+    $results = $eb_client->search( $search_params );
 
     if (isset($results)) {
 
@@ -144,9 +127,6 @@ class Plugin_eventbrite extends Plugin {
         }
     }
     return Parse::tagLoop($this->content, $cached_events, true, $this->context);
-
-
-    //return $output;
   }
 }
 
